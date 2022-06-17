@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdk 32
 
@@ -64,4 +66,8 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-rxjava2:1.1.1")
     // UI Tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")
+
+    implementation("androidx.room:room-runtime:2.4.2")
+    kapt("androidx.room:room-compiler:2.4.2")
+    implementation("androidx.room:room-ktx:2.4.2")
 }
