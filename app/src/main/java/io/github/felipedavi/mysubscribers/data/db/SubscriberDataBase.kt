@@ -12,16 +12,20 @@ abstract class SubscriberDataBase: RoomDatabase() {
     abstract fun subscriberDAO(): SubscriberDAO
 
     companion object {
-        private lateinit var INSTANCE: SubscriberDataBase
-        fun getDatabase(context:Context): SubscriberDataBase {
-            if (!::INSTANCE.isInitialized) {
-                synchronized(SubscriberDataBase::class) {
-                    INSTANCE = Room.databaseBuilder(context, SubscriberDataBase::class.java, "app_database")
-                        .allowMainThreadQueries()
-                        .build()
+        @Volatile
+        private var INSTANCE: SubscriberDataBase? = null
+        fun getInstance(context: Context): SubscriberDataBase {
+            synchronized(this) {
+                var instance: SubscriberDataBase? = INSTANCE
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
+                        context,
+                        SubscriberDataBase::class.java,
+                        "app_database"
+                    ).build()
                 }
+                return instance
             }
-            return INSTANCE
         }
     }
 }
